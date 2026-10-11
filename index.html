@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry, Jay</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffe0ea;--bg2:#ffd6b8;--ink:#3b1f4a;--card:#fff9fb;--accent:#ff3d81;--sun:#ffc43d;--mint:#2ec4b6;--muted:#7a5a86;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1238;--bg2:#4a1d4f;--ink:#fff0f6;--card:#3d2052;--muted:#d9b8e6}}
+:root[data-theme="dark"]{--bg:#2a1238;--bg2:#4a1d4f;--ink:#fff0f6;--card:#3d2052;--muted:#d9b8e6}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);background:linear-gradient(160deg,var(--bg),var(--bg2)) fixed;color:var(--ink);font-family:'Nunito',system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
+h1,h2,.fr{font-family:'Fredoka','Trebuchet MS',sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 18px 80px}
+.hero{text-align:center;padding:24px 0 8px}
+.face{font-size:120px;line-height:1;display:inline-block;transition:transform .3s;cursor:pointer;user-select:none}
+.face:active{transform:scale(.85) rotate(-8deg)}
+.face.wob{animation:wob .6s}
+@keyframes wob{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+h1{font-size:clamp(48px,14vw,96px);margin:4px 0;letter-spacing:-1px}
+.sub{font-size:19px;max-width:30ch;margin:0 auto 10px}
+.name{display:flex;gap:8px;justify-content:center;margin:14px 0}
+input{font:inherit;padding:10px 14px;border-radius:14px;border:2px solid var(--ink);background:var(--card);color:var(--ink);width:210px}
+button{font:inherit;font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;border:0;border-radius:16px;padding:12px 20px;cursor:pointer;color:#3b1f4a;background:var(--sun);box-shadow:0 5px 0 rgba(0,0,0,.25);transition:transform .08s,box-shadow .08s}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+button:focus-visible,input:focus-visible,.face:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+section{background:var(--card);border-radius:26px;padding:22px;margin-top:22px;box-shadow:0 8px 0 rgba(0,0,0,.08)}
+h2{margin:0 0 6px;font-size:28px}
+.muted{color:var(--muted);margin:0 0 14px}
+.bar{height:34px;border-radius:20px;background:rgba(127,127,127,.2);overflow:hidden;border:2px solid var(--ink)}
+.fill{height:100%;width:12%;background:repeating-linear-gradient(45deg,var(--accent) 0 14px,#ff8fa9 14px 28px);transition:width .35s}
+.row{display:flex;justify-content:space-between;font-weight:700;margin:8px 0 14px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.pink{background:var(--accent);color:#fff}
+.mint{background:var(--mint)}
+.say{min-height:3.2em;font-size:19px;font-weight:700;margin:14px 0 0}
+ul{list-style:none;padding:0;margin:0}
+li label{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;cursor:pointer;font-size:18px}
+li label:hover{background:rgba(127,127,127,.12)}
+li input{width:26px;height:26px;accent-color:var(--mint);flex:none;padding:0}
+li input:checked+span{text-decoration:line-through;opacity:.6}
+.arena{position:relative;height:150px;border:2px dashed var(--muted);border-radius:20px;margin-top:6px}
+.arena button{position:absolute;white-space:nowrap}
+#yes{left:12%;top:50px}#no{left:62%;top:50px;background:#f0d3e3}
+.final{display:none;text-align:center;font-size:22px;font-weight:700;margin-top:14px}
+.conf{position:fixed;top:-20px;font-size:26px;pointer-events:none;z-index:9;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+footer{text-align:center;color:var(--muted);margin-top:30px}
+@media (prefers-reduced-motion:reduce){.conf{display:none}.face.wob{animation:none}}
+</style>
+</head>
+<body>
+<main>
+<div class="hero">
+  <div class="face" id="face" role="button" tabindex="0" aria-label="Sad face, tap me">🥺</div>
+  <h1 id="title">Sorry, Jay.</h1>
+  <p class="sub">Jay, I didn't put in enough effort. You deserved better, and I know it.</p>
+  <div class="name"><input id="nm" value="Jay" placeholder="Type your name" aria-label="Your name" maxlength="24"><button id="setNm" class="mint">Say it to me</button></div>
+</div>
+
+<section>
+  <h2>Effort meter</h2>
+  <p class="muted">This is how much effort I put in before. Help me fix it.</p>
+  <div class="bar"><div class="fill" id="fill"></div></div>
+  <div class="row"><span>Effort</span><span id="pct">12%</span></div>
+  <div class="btns"><button id="more" class="pink">Make me try harder</button><button id="reset">Reset</button></div>
+  <p class="say" id="say" aria-live="polite">Currently at: "meh."</p>
+</section>
+
+<section>
+  <h2>My promises</h2>
+  <p class="muted">Tick each one to hold me to it.</p>
+  <ul id="list">
+    <li><label><input type="checkbox"><span>I will actually pay attention</span></label></li>
+    <li><label><input type="checkbox"><span>I will show up on time, or tell you early</span></label></li>
+    <li><label><input type="checkbox"><span>I will put in real effort, every time</span></label></li>
+    <li><label><input type="checkbox"><span>I will say sorry with actions, not only words</span></label></li>
+    <li><label><input type="checkbox"><span>I will bring snacks as a bonus</span></label></li>
+  </ul>
+  <p class="say" id="pmsg"></p>
+</section>
+
+<section>
+  <h2>So... are we okay?</h2>
+  <p class="muted">Take your time. Choose carefully.</p>
+  <div class="arena" id="arena">
+    <button id="yes" class="mint">Forgive me</button>
+    <button id="no">Not yet</button>
+  </div>
+  <p class="final" id="final">🎉 Thank you, Jay. I'll make it count. 🎉</p>
+</section>
+<footer>Made with a lot more effort this time.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const face=$('face'),fill=$('fill'),pct=$('pct'),say=$('say');
+let effort=12;
+const lines=[[0,'Currently at: "meh."'],[25,'Okay, waking up now...'],[45,'Getting serious. Sleeves rolled up.'],[65,'Now we are talking. Real effort!'],[85,'Almost there. I am sweating.'],[100,'Maximum effort. I mean it. 💯']];
+const faces=['🥺','😔','🙂','😊','😄','🥹'];
+function confetti(n=40){
+  const e=['🎉','💖','✨','🌟','🍫','🎈'];
+  for(let i=0;i<n;i++){const s=document.createElement('span');s.className='conf';s.textContent=e[i%e.length];
+    s.style.left=Math.random()*100+'vw';s.style.animationDuration=(2+Math.random()*2.5)+'s';
+    document.body.appendChild(s);setTimeout(()=>s.remove(),5000)}
+}
+function wob(){face.classList.remove('wob');void face.offsetWidth;face.classList.add('wob')}
+function render(){
+  fill.style.width=effort+'%';pct.textContent=effort+'%';
+  let idx=0;lines.forEach((l,i)=>{if(effort>=l[0])idx=i});
+  say.textContent=lines[idx][1];face.textContent=faces[idx];
+  $('more').textContent=effort>=100?'Again! (just for fun)':'Make me try harder';
+}
+$('more').onclick=()=>{
+  if(effort>=100){confetti(30);wob();return}
+  effort=Math.min(100,effort+8+Math.floor(Math.random()*10));
+  wob();render();if(effort>=100)confetti(60)
+};
+$('reset').onclick=()=>{effort=12;render()};
+face.onclick=()=>{wob();const t=['Sorry!','So sorry!','Really sorry!','Super duper sorry!'];say.textContent=t[Math.floor(Math.random()*t.length)]};
+face.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();face.click()}};
+$('setNm').onclick=()=>{const v=$('nm').value.trim();if(v){$('title').textContent='Sorry, '+v+'.';wob();confetti(15)}};
+$('nm').onkeydown=e=>{if(e.key==='Enter')$('setNm').click()};
+const boxes=[...document.querySelectorAll('#list input')];
+boxes.forEach(b=>b.onchange=()=>{
+  const c=boxes.filter(x=>x.checked).length;
+  $('pmsg').textContent=c===boxes.length?'All promised. No take-backs! 🤝':c?c+' of '+boxes.length+' promised.':'';
+  if(c===boxes.length)confetti(35)
+});
+const no=$('no'),arena=$('arena');
+function dodge(){
+  const w=arena.clientWidth-no.offsetWidth-6,h=arena.clientHeight-no.offsetHeight-6;
+  no.style.left=Math.max(3,Math.random()*w)+'px';no.style.top=Math.max(3,Math.random()*h)+'px';
+}
+no.addEventListener('mouseenter',dodge);
+no.addEventListener('touchstart',e=>{e.preventDefault();dodge()},{passive:false});
+no.addEventListener('click',dodge);
+$('yes').onclick=()=>{
+  $('final').style.display='block';face.textContent='🥰';title.textContent='Yay, Jay!';confetti(90);no.style.display='none'
+};
+</script>
+</body>
+</html>
